@@ -8,14 +8,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          use-mamba: false  # Ensure mamba is disabled if not needed
-      - name: Create environment
+          use-mamba: false  # Use classic conda solver
+
+      - name: Initialize Conda
+        run: conda init bash
+
+      - name: Reload Shell
+        run: source ~/.bashrc
+
+      - name: Create Environment
         run: conda env create -f environment.yml
-      - name: Activate environment
+
+      - name: Activate Environment
         run: conda activate ai-comment-classifier
+
       - name: Run Tests
         run: pytest
