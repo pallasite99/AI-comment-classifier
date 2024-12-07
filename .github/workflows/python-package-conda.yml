@@ -6,14 +6,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          use-mamba: false  # Disable mamba
-      - name: Set classic solver
-        run: conda config --set solver classic
-      - name: Create Environment
+          use-mamba: false  # Ensure mamba is disabled if not needed
+      - name: Create environment
         run: conda env create -f environment.yml
-      - name: Activate Environment
+      - name: Activate environment
         run: conda activate ai-comment-classifier
+      - name: Run Tests
+        run: pytest
