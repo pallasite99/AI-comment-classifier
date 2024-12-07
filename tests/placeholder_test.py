@@ -50,6 +50,7 @@ def clean_text_no_nltk(text):
     tokens = [word for word in tokens if word not in stop_words]
     return ' '.join(tokens)
 
+
 # Apply the cleaning function to the 'text' column
 df['cleaned_text'] = df['text'].apply(clean_text_no_nltk)
 
