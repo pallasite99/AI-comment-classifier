@@ -1,0 +1,16 @@
+name: ai-comment-classifier
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas
+  - matplotlib
+  - seaborn
+  - numpy
+  - scikit-learn
+  - pytest
+  - pip
+  - pip:
+      - flake8  # Optional: for linting
+      - black   # Optional: for code formatting
