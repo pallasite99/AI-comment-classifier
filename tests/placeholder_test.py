@@ -118,7 +118,7 @@ top_negative = coef_df.nsmallest(10, 'Coefficient')
 
 # Plot top positive coefficients
 plt.figure(figsize=(8, 5))
-sns.barplot(x='Coefficient', y='Feature', data=top_positive, palette='Greens', hue=None)
+sns.barplot(x='Coefficient', y='Feature', data=top_positive, palette='Greens', hue='Feature', legend=False)
 plt.title('Top 10 Positive Features (AI Indicating Words)')
 plt.xlabel('Coefficient Value')
 plt.ylabel('Feature')
@@ -126,7 +126,7 @@ plt.show()
 
 # Plot top negative coefficients
 plt.figure(figsize=(8, 5))
-sns.barplot(x='Coefficient', y='Feature', data=top_negative, palette='Reds', hue=None)
+sns.barplot(x='Coefficient', y='Feature', data=top_negative, palette='Reds', hue='Feature', legend=False)
 plt.title('Top 10 Negative Features (Human Indicating Words)')
 plt.xlabel('Coefficient Value')
 plt.ylabel('Feature')
