@@ -49,7 +49,7 @@ To run this project locally, follow these steps:
 
 ![Human comment](https://github.com/user-attachments/assets/04bc7448-ac51-4955-8ae6-a3d9f46e29b1)
 ![AI generated comment](https://github.com/user-attachments/assets/8a5179f4-e1db-412f-8d02-fa0fbd954650)
-
+![image](https://github.com/user-attachments/assets/9a5471da-1678-4785-b1bf-fb71e41895d6)
 
 ## Contributing
 If you would like to contribute to this project, feel free to fork the repository and submit a pull request.
