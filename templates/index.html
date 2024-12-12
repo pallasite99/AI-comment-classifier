@@ -3,85 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI vs Human Text Classifier</title>
+    <title>Text Classifier</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
+            margin: 20px;
         }
-        .container {
+        h1 {
             text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            color: #333;
         }
         textarea {
             width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
+            height: 150px;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            outline: none;
+            resize: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
         }
         button {
-            padding: 10px 20px;
+            margin: 10px 5px;
+            padding: 12px 20px;
             font-size: 16px;
-            background-color: #007bff;
             color: white;
+            background-color: #4CAF50;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .result {
+        #result {
             margin-top: 20px;
-            font-size: 18px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>AI vs Human Text Classifier</h2>
-        <textarea id="inputText" placeholder="Enter your text here..."></textarea>
-        <button onclick="classifyText()">Classify</button>
-        <div class="result" id="result"></div>
-    </div>
+    <h1>Text Classifier</h1>
+    <textarea id="inputText" placeholder="Enter text to classify..."></textarea>
+    <br>
+    <!-- Button for sending POST request -->
+    <button id="classifyButton">Classify Text</button>
+    <!-- Button for simulating GET request -->
+    <button id="simulateGetButton">Simulate GET Request</button>
+    <div id="result"></div>
 
     <script>
-        async function classifyText() {
-            const inputText = document.getElementById('inputText').value;
+        // Handle POST request for text classification
+        document.getElementById('classifyButton').addEventListener('click', async function () {
+            const inputText = document.getElementById('inputText').value.trim();
             const resultDiv = document.getElementById('result');
 
             if (!inputText) {
-                resultDiv.innerHTML = "Please enter text to classify.";
+                resultDiv.innerHTML = "<span class='error'>Please enter text to classify.</span>";
                 return;
             }
 
-            const response = await fetch('/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: inputText }),
-            });
+            resultDiv.innerHTML = "Processing...";
 
-            const data = await response.json();
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: inputText }),
+                });
 
-            if (response.ok) {
-                resultDiv.innerHTML = `<strong>Prediction:</strong> ${data.prediction}`;
-            } else {
-                resultDiv.innerHTML = `<strong>Error:</strong> ${data.error}`;
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <strong>Prediction:</strong> ${data.prediction} <br>
+                        <span class="confidence">Confidence Score: ${data.confidence.toFixed(2)}%</span> <br>
+                        <strong>Suggestions:</strong> ${data.prediction === 'Human-written' ? 'Keep up the natural tone!' : 'Consider adding more human-like phrasing.'}
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> ${data.error}</span>`;
+                }
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> Unable to connect to the server.</span>`;
             }
-        }
+        });
+
+        // Simulate GET request for testing error handling
+        document.getElementById('simulateGetButton').addEventListener('click', async function () {
+            const resultDiv = document.getElementById('result');
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'GET', // Simulate GET request
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <strong>Response:</strong> GET request received successfully (unexpected result) <br>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> ${data.error}</span>`;
+                }
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> Unable to connect to the server.</span>`;
+            }
+        });
     </script>
 </body>
 </html>
