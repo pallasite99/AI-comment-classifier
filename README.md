@@ -42,7 +42,7 @@ To run this project locally, follow these steps:
 - **notebooks/**: Jupyter notebooks for exploratory data analysis and model experimentation.
 - **app.py**: Flask application python file
 - **.pkl files**: Needed for flask application to use trained model
-- **templates**: Base HTML UI file
+- **templates/index.html**: Base HTML UI file
 - **requirements.txt**: List of dependencies required to run the project.
 
 ## Demo
