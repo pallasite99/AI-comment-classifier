@@ -40,7 +40,16 @@ To run this project locally, follow these steps:
 - **data/**: Sample datasets used for training and testing.
 - **src/**: Contains the main code files, including preprocessing, modeling, and evaluation scripts.
 - **notebooks/**: Jupyter notebooks for exploratory data analysis and model experimentation.
+- **app.py**: Flask application python file
+- **.pkl files**: Needed for flask application to use trained model
+- **templates**: Base HTML UI file
 - **requirements.txt**: List of dependencies required to run the project.
+
+## Demo
+
+![Human comment](https://github.com/user-attachments/assets/04bc7448-ac51-4955-8ae6-a3d9f46e29b1)
+![AI generated comment](https://github.com/user-attachments/assets/8a5179f4-e1db-412f-8d02-fa0fbd954650)
+
 
 ## Contributing
 If you would like to contribute to this project, feel free to fork the repository and submit a pull request.
