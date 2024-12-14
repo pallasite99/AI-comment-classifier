@@ -51,6 +51,8 @@ To run this project locally, follow these steps:
 ![AI generated comment](https://github.com/user-attachments/assets/8a5179f4-e1db-412f-8d02-fa0fbd954650)
 ![image](https://github.com/user-attachments/assets/9a5471da-1678-4785-b1bf-fb71e41895d6)
 
+![system_design_diagram](https://github.com/user-attachments/assets/58e8d1ab-e2a5-485b-aabd-af4c60ca2a68)
+
 ## Contributing
 If you would like to contribute to this project, feel free to fork the repository and submit a pull request.
 
