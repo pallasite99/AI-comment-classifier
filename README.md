@@ -53,6 +53,10 @@ To run this project locally, follow these steps:
 
 ![system_design_diagram](https://github.com/user-attachments/assets/58e8d1ab-e2a5-485b-aabd-af4c60ca2a68)
 
+## Future Scope
+
+![image](https://github.com/user-attachments/assets/368e9482-a984-4519-8e3a-2fc9416c0a6c)
+
 ## Contributing
 If you would like to contribute to this project, feel free to fork the repository and submit a pull request.
 
