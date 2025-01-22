@@ -56,6 +56,12 @@
         .error {
             color: red;
         }
+        #feedbackSection {
+            margin-top: 20px;
+        }
+        #incorrectButton {
+            background-color: #f44336;
+        }
     </style>
 </head>
 <body>
@@ -64,11 +70,17 @@
     <br>
     <!-- Button for sending POST request -->
     <button id="classifyButton">Classify Text</button>
-    <!-- Button for simulating GET request -->
-    <button id="simulateGetButton">Simulate GET Request</button>
+    <!-- Feedback Section -->
+    <div id="feedbackSection" style="display:none;">
+        <p>Was the classification correct?</p>
+        <button id="correctButton">Correct</button>
+        <button id="incorrectButton">Incorrect</button>
+    </div>
     <div id="result"></div>
 
     <script>
+        let lastPrediction = ""; // Store the last prediction
+
         // Handle POST request for text classification
         document.getElementById('classifyButton').addEventListener('click', async function () {
             const inputText = document.getElementById('inputText').value.trim();
@@ -93,11 +105,14 @@
                 const data = await response.json();
 
                 if (response.ok) {
+                    lastPrediction = data.prediction;
                     resultDiv.innerHTML = `
                         <strong>Prediction:</strong> ${data.prediction} <br>
-                        <span class="confidence">Confidence Score: ${data.confidence.toFixed(2)}%</span> <br>
-                        <strong>Suggestions:</strong> ${data.prediction === 'Human-written' ? 'Keep up the natural tone!' : 'Consider adding more human-like phrasing.'}
+                        <span class="confidence">Confidence Score: ${data.confidence.toFixed(2)}%</span>
                     `;
+
+                    // Show feedback section
+                    document.getElementById('feedbackSection').style.display = 'block';
                 } else {
                     resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> ${data.error}</span>`;
                 }
@@ -107,29 +122,44 @@
             }
         });
 
-        // Simulate GET request for testing error handling
-        document.getElementById('simulateGetButton').addEventListener('click', async function () {
+        // Handle feedback submission
+        document.getElementById('correctButton').addEventListener('click', async function () {
+            sendFeedback(true);
+        });
+
+        document.getElementById('incorrectButton').addEventListener('click', async function () {
+            sendFeedback(false);
+        });
+
+        async function sendFeedback(isCorrect) {
             const resultDiv = document.getElementById('result');
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/predict', {
-                    method: 'GET', // Simulate GET request
+                const actualLabel = isCorrect ? (lastPrediction === "Human-written" ? 0 : 1) : (lastPrediction === "Human-written" ? 1 : 0);
+
+                const response = await fetch('http://127.0.0.1:5000/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: document.getElementById('inputText').value,
+                        actual_label: actualLabel
+                    }),
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    resultDiv.innerHTML = `
-                        <strong>Response:</strong> GET request received successfully (unexpected result) <br>
-                    `;
+                    resultDiv.innerHTML += `<br><strong>Feedback:</strong> ${data.message}`;
                 } else {
                     resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> ${data.error}</span>`;
                 }
             } catch (error) {
                 console.error(error);
-                resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> Unable to connect to the server.</span>`;
+                resultDiv.innerHTML = `<span class="error"><strong>Error:</strong> Unable to connect to the server for feedback.</span>`;
             }
-        });
+        }
     </script>
 </body>
 </html>
