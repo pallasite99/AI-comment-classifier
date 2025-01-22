@@ -54,7 +54,7 @@ To run this project locally, follow these steps:
 ![system_design_diagram](https://github.com/user-attachments/assets/58e8d1ab-e2a5-485b-aabd-af4c60ca2a68)
 
 ## Future Scope
-
+Using feedback from user to improve classification periodically through another script -
 ![image](https://github.com/user-attachments/assets/368e9482-a984-4519-8e3a-2fc9416c0a6c)
 
 ## Contributing
